@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="jcommon" basedir="." default="jar">
+	<property environment="env"/>
+	
+	<property name="src" location="src"/>
+	<property name="build" location="build"/>
+	<property name="doc" location="doc"/>
+	<property name="lib" location="lib"/>
+	<property name="dist" location="dist"/>
+	
+	<property name="jar" value="jcommon.jar"/>
+	<property name="jar14" value="jcommon14.jar"/>
+	<property name="srcjar" value="jcommon_source.jar"/>
+	<property name="docjar" value="jcommon_javadoc.jar"/>
+	
+	<path id="cp">
+        <fileset dir="${lib}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+	
+	<taskdef name="retroweaver" classpathref="cp" classname="net.sourceforge.retroweaver.ant.RetroWeaverTask">
+	</taskdef>
+	
+    <target name="clean" description="Delete all generated files">
+        <delete file="${jar}"/>
+    	<delete file="${jar14}"/>
+    	<delete file="${srcjar}"/>
+    	<delete file="${docjar}"/>
+    	<mkdir dir="${build}"/>
+    </target>
+    	
+    <target name="compile" depends="clean" description="Compiles the Task">
+        <javac srcdir="${src}" destdir="${build}" classpathref="cp" source="1.5" target="1.5" debug="true" excludes="com/javarelational/example**"/>
+    	<javadoc
+    		packagenames="*"
+    		sourcepath="${src}"
+    		destdir="${doc}"
+    		author="true"
+    		version="true"
+    		use="true"
+    		windowTitle="jcommon api"
+    		classpathref="cp"/>
+    </target>
+	
+    <target name="jar" depends="compile" description="JARs the Task">
+    	<mkdir dir="${dist}"/>
+        <jar destfile="${dist}/${jar}" basedir="${build}"/>
+    	<retroweaver srcdir="${build}"/>
+    	<unjar src="${lib}/retroweaver-rt-2.0Beta2.jar" dest="${build}"/>
+    	<jar destfile="${dist}/${jar14}" basedir="${build}"/>
+    	<jar destfile="${dist}/${srcjar}" basedir="${src}"/>
+    	<jar destfile="${dist}/${docjar}" basedir="${doc}"/>
+    	<delete dir="${doc}"/>
+    	<delete dir="${build}"/>
+    	<antcall target="release-dependencies"/>
+    </target>
+	
+	<target name="release-dependencies" if="env.DEPENDENCIES">
+		<copy todir="${env.DEPENDENCIES}" file="${dist}/${jar}"/>
+		<copy todir="${env.DEPENDENCIES}" file="${dist}/${jar14}"/>
+	</target>
+	
+	<target name="release" depends="jar">
+		<input message="Username:" addproperty="username"/>
+		<input message="Password:" addproperty="password"/>
+		<scp file="${dist}/${jar}" todir="${username}:${password}@captiveimagination.com:/var/www/html/download/dependencies" trust="true"/>
+		<scp file="${dist}/${jar14}" todir="${username}:${password}@captiveimagination.com:/var/www/html/download/dependencies" trust="true"/>
+		<scp file="${dist}/${srcjar}" todir="${username}:${password}@captiveimagination.com:/var/www/html/download/dependencies" trust="true"/>
+		<scp file="${dist}/${docjar}" todir="${username}:${password}@captiveimagination.com:/var/www/html/download/dependencies" trust="true"/>
+	</target>
+</project>
