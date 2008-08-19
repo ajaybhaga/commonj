@@ -494,7 +494,11 @@ public class StringUtilities {
 			if (i > 0) {
 				buffer.append(", ");
 			}
-			buffer.append(array[i].toString());
+			if ((array[i] != null) && (array[i].getClass().isArray())) {
+				buffer.append(StringUtilities.toString((Object[])array[i]));
+			} else {
+				buffer.append(String.valueOf(array[i]));
+			}
 		}
 		buffer.append("}");
 		return buffer.toString();
