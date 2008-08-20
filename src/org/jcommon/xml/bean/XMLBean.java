@@ -93,8 +93,7 @@ public class XMLBean {
 		return toXML(name, obj, obj.getClass(), new PersistenceInstance(), true);
 	}
 
-	public static Element toXML(String originalName, Object obj, Class<?> c,
-			PersistenceInstance pi, boolean topLevel) {
+	public static Element toXML(String originalName, Object obj, Class<?> c, PersistenceInstance pi, boolean topLevel) {
 		String name = originalName;
 
 		XMLInstance instance = getXMLInstance(c);
