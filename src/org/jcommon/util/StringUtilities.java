@@ -848,10 +848,24 @@ public class StringUtilities {
     	calendar.set(Calendar.MILLISECOND, 0);
     }
 
+    /**
+     * Returns true if it is null or the length is zero
+     * 
+     * @param str
+     * @return
+     * 		empty
+     */
     public static boolean isEmpty(String str){
         return str == null || str.length() == 0;
     }
 
+    /**
+     * Same as isEmpty but trims off whitespace before evaluating length.
+     * 
+     * @param str
+     * @return
+     * 		blank
+     */
     public static boolean isBlank(String str){
         return str == null || str.trim().length() == 0;
     }
