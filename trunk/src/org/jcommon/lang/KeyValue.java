@@ -6,31 +6,31 @@ package org.jcommon.lang;
 /**
  * @author Matt Hicks
  */
-public class KeyValue {
-    private String key;
-    private Object value;
+public class KeyValue<K, O> {
+    private K key;
+    private O value;
     
     public KeyValue() {
     }
     
-    public KeyValue(String key, Object value) {
+    public KeyValue(K key, O value) {
         this.key = key;
         this.value = value;
     }
     
-    public String getKey() {
+    public K getKey() {
         return key;
     }
     
-    public void setKey(String key) {
+    public void setKey(K key) {
         this.key = key;
     }
     
-    public Object getValue() {
+    public O getValue() {
         return value;
     }
     
-    public void setValue(Object value) {
+    public void setValue(O value) {
         this.value = value;
     }
 }
