@@ -20,7 +20,7 @@ public class Registry<O> implements Runnable {
 	/**
 	 * The amount of time between updates on the registry
 	 */
-	public static long UPDATE_INTERVAL = 1 * 1000;
+	public static long UPDATE_INTERVAL = 30 * 1000;
 	
 	private long entryLifespan;
 	private Map<String, KeyValue<Long, O>> map;
