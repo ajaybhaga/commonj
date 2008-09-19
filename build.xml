@@ -65,6 +65,7 @@
         <input message="Username:" addproperty="username"/>
         <input message="Password:" addproperty="password"/>
     	<scp file="${dist}/${jar}" todir="${username}:${password}@captiveimagination.com:/home/general/${ant.project.name}/download" trust="true" verbose="true"/>
+		<scp file="${dist}/${jar14}" todir="${username}:${password}@captiveimagination.com:/home/general/${ant.project.name}/download" trust="true" verbose="true"/>
 		<scp file="${dist}/${srcjar}" todir="${username}:${password}@captiveimagination.com:/home/general/${ant.project.name}/download" trust="true" verbose="true"/>
 		<scp file="${dist}/${docjar}" todir="${username}:${password}@captiveimagination.com:/home/general/${ant.project.name}/download" trust="true" verbose="true"/>
     	<sshexec
