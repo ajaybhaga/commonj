@@ -26,4 +26,15 @@ public class SimpleMD5 {
 		}
 		return out;
 	}
+	
+	public static String toHexString(String text, String key) {
+		SimpleMD5 md5 = new SimpleMD5(text, key);
+		return md5.toHexString();
+	}
+	
+	public static void main(String[] args) throws Exception {
+		String text = "testing";
+		String key = "mhicks";
+		System.out.println(toHexString(text, key));
+	}
 }
