@@ -30,11 +30,8 @@ public class ImageUtils {
 		} else {
 			height = size;
 		}
+		System.out.println("Width and Height: " + width + "x" + height);
 		Image target = source.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-		if (target.getHeight(null) > height) {
-			// The height is larger than it should be, so we switch to height-based scaling
-			target = source.getScaledInstance(-1, height, Image.SCALE_SMOOTH);
-		}
 		
 		// Draw target to a RenderedImage
 		BufferedImage bi = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB); {
@@ -42,6 +39,8 @@ public class ImageUtils {
 				// Draw a white background
 				g.setColor(Color.WHITE);
 				g.fillRect(0, 0, size, size);
+				
+				System.out.println("NewSize: " + target.getWidth(null) + "x" + target.getHeight(null));
 				
 				// Determine location to draw at
 				int x = (size - target.getWidth(null)) / 2;

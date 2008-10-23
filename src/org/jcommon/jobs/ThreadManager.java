@@ -33,11 +33,19 @@
  */
 package org.jcommon.jobs;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Logger;
+
+import org.jcommon.util.StringUtilities;
 
 /**
  * ThreadManager provides thread management work processing within any
@@ -127,7 +135,7 @@ public class ThreadManager implements Runnable {
 		thread.setName("JSLThreadManager");
 		thread.setDaemon(true);
 		thread.start();
-
+		
 		// Add a single thread to begin
 		addThread();
 	}
@@ -344,6 +352,40 @@ public class ThreadManager implements Runnable {
 	 */
 	public void shutdown() {
 		keepAlive = false;
+	}
+	
+	/**
+	 * Returns the complete trace count for this manager
+	 * 
+	 * @return
+	 */
+	public List<StackTraceElement[]> getStackTraces() {
+		List<StackTraceElement[]> traces = new ArrayList<StackTraceElement[]>();
+		for (ProcessingThread pt : threads) {
+			traces.add(pt.getStackTrace());
+		}
+		return traces;
+	}
+	
+	public void dumpStackTraces(File directory, String prefix) throws IOException {
+		List<StackTraceElement[]> traces = getStackTraces();
+		for (int i = 0; i < traces.size(); i++) {
+			File f = new File(directory, prefix + (i + 1) + ".trace");
+			BufferedWriter writer = new BufferedWriter(new FileWriter(f));
+			for (StackTraceElement e : traces.get(i)) {
+				writer.append(e.getClassName());
+				writer.append('.');
+				writer.append(e.getMethodName());
+				if (e.getLineNumber() > 0) {
+    				writer.append(" (" + e.getLineNumber() + ")");
+				} else {
+					writer.append(" (Unknown)");
+				}
+				writer.newLine();
+			}
+			writer.flush();
+			writer.close();
+		}
 	}
 
 	/**
