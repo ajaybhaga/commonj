@@ -23,6 +23,7 @@ import org.jcommon.util.StringUtilities;
 public class Restreamer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Pattern ANCHOR_MATCH = Pattern.compile("(<a href=\")(.*?)(\".*?>)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+	private static final Pattern SOURCE_MATCH = Pattern.compile("(src=\")(.*?)(\")", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 
 	private Set<String> domains;
 	private List<Pattern> patterns;
@@ -96,6 +97,8 @@ public class Restreamer extends HttpServlet {
         		// Update anchors
         		String replacement = "$1" + request.getRequestURL() + "?h=" + host + "&r=$2$3";
         		content = fixContent(content, ANCHOR_MATCH, replacement);
+        		// Update src links
+        		content = fixContent(content, SOURCE_MATCH, replacement);
         		
         		PrintWriter writer = response.getWriter();
         		writer.write(content);
