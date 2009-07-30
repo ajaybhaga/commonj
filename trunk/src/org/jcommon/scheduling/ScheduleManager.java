@@ -70,6 +70,10 @@ public class ScheduleManager implements Runnable {
 		updateThread.start();
 	}
 	
+	public ThreadManager getThreadManager() {
+		return manager;
+	}
+	
 	public void initialize(SchedulerPersistence persistence) {
 		this.persistence = persistence;
 		persistence.load();

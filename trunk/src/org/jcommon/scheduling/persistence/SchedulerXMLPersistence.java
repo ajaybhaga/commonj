@@ -65,7 +65,7 @@ public class SchedulerXMLPersistence implements SchedulerPersistence {
 			writer.close();
 		}
 		
-//		System.out.println("Written file: " + file.getAbsolutePath());
+//		System.out.println("Written file: " + file.getAbsolutePath() + " - Size: " + StringUtilities.format(file.length(), StringUtilities.FILE_FORMAT));
 	}
 	
 	public void delete(Task task) throws IOException {
