@@ -108,6 +108,8 @@ public abstract class Task implements Comparable<Task>, Serializable, WorkUnit {
 		scheduled = -1;
 		lastRun = -1;
 		deletionAge = -1;
+		
+		statusProgress = -1.0f;
 
 		manualAllowed = true;
 		schedulingAllowed = true;
@@ -186,9 +188,11 @@ public abstract class Task implements Comparable<Task>, Serializable, WorkUnit {
 			executionId = Math.round(Math.random() * Long.MAX_VALUE);
 			setExecutionStatus(ExecutionStatus.RUNNING);
 			setStatusMessage("Running...");
-			setStatusProgress(0.0f);
+			setStatusProgress(-1.0f);
 			setExecutionThread(Thread.currentThread());
-			currentTrigger.triggeredBegin(this);
+			if (currentTrigger != null) {
+				currentTrigger.triggeredBegin(this);
+			}
 		} catch (Throwable exc) {
 			LogManager.log(this, LogManager.Type.ERROR, exc);
 		}
