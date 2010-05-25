@@ -296,10 +296,10 @@ public abstract class Task implements Comparable<Task>, Serializable, WorkUnit {
 			throw new InterruptedException();
 		}
 		
-		if (statusProgress > 1.0f) {
-			// Convert to 1.0 scale
-			statusProgress /= 100.0f;
-		}
+//		if (statusProgress > 1.0f) {
+//			// Convert to 1.0 scale
+//			statusProgress /= 100.0f;
+//		}
 		
 		this.statusProgress = statusProgress;
 		changed();
